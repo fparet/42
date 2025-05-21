@@ -29,7 +29,6 @@ typedef struct s_data
     pthread_mutex_t print_lock;
     t_philosopher   *philosophers;
     long long       start_time;
-    int					simulation_end;
 	pthread_mutex_t		simulation_lock;
 }   t_data;
 
@@ -40,6 +39,7 @@ void *philosopher_routine(void *arg);
 void create_threads(t_data *data);
 void monitor_philosophers(t_data *data);
 void start_simulation(t_data *data);
+void	eat(t_philosopher *philo);
 
 //init
 int init_mutexes(t_data *data);
@@ -55,6 +55,8 @@ long long get_time(void);
 void print_status(t_data *data, int id, char *status);
 void cleanup(t_data *data);
 void	smart_sleep(int duration_ms, t_data *data);
+int get_simulation_end(t_data *data);
+void	set_simulation_end(t_data *data, int value);
 
 #endif
 

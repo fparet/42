@@ -80,7 +80,7 @@ void	*philosopher_routine(void *arg)
 	if (philo->id % 2 == 0)
 		usleep(1000); // léger décalage pour éviter deadlock
 
-	while (!philo->data->simulation_end)
+	while (!philo->data->simulation_end)        //APROTEC
 	{
 		print_status(philo->data, philo->id, "is thinking");
 
@@ -96,7 +96,10 @@ void	*philosopher_routine(void *arg)
 		pthread_mutex_unlock(&philo->meal_lock);
 
 		smart_sleep(philo->data->time_to_eat, philo->data);
-		philo->meals_eaten++;
+		pthread_mutex_lock(&philo->meal_lock);
+        philo->meals_eaten++;
+        pthread_mutex_unlock(&philo->meal_lock);
+
 
 		pthread_mutex_unlock(&philo->data->forks[philo->id - 1]);
 		pthread_mutex_unlock(&philo->data->forks[philo->id % philo->data->num_philosophers]);
@@ -122,7 +125,7 @@ void monitor_philosophers(t_data *data)
 	int i;
     long long current_time;
 
-    while (!data->simulation_end)
+    while (!get_simulation_end(data))
 	{
         i = -1;
         while (++i < data->num_philosophers)
@@ -132,14 +135,14 @@ void monitor_philosophers(t_data *data)
             if (current_time - data->philosophers[i].last_meal_time > data->time_to_die) 
 			{
                 print_status(data, data->philosophers[i].id, "died");
-                data->simulation_end = 1;
+                set_simulation_end(data, 1);
 				pthread_mutex_unlock(&data->philosophers[i].meal_lock);
                 break;
             }
 			pthread_mutex_unlock(&data->philosophers[i].meal_lock);
             if (data->max_meals != -1 &&
-                data->philosophers[i].meals_eaten >= data->max_meals)
-                data->simulation_end = 1;
+                data->philosophers[i].meals_eaten >= data->max_meals)   //APROTEC
+                set_simulation_end(data, 1);
         }
         usleep(1000);
     }
@@ -148,8 +151,14 @@ void monitor_philosophers(t_data *data)
 void start_simulation(t_data *data)
 {
 	data->start_time = get_time();
-	for (int i = 0; i < data->num_philosophers; i++)
-		data->philosophers[i].last_meal_time = data->start_time;
+	//for (int i = 0; i < data->num_philosophers; i++)
+	//	data->philosophers[i].last_meal_time = data->start_time;
+    for (int i = 0; i < data->num_philosophers; i++)
+    {
+	    pthread_mutex_lock(&data->philosophers[i].meal_lock);
+	    data->philosophers[i].last_meal_time = data->start_time;
+	    pthread_mutex_unlock(&data->philosophers[i].meal_lock);
+    }
     create_threads(data);
     monitor_philosophers(data);
     for (int i = 0; i < data->num_philosophers; i++)

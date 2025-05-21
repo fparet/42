@@ -68,7 +68,7 @@ int init_data(t_data *data, int argc, char **argv)
 		data->max_meals = atoi(argv[5]);
 	else
 		data->max_meals = -1;
-	data->simulation_end = 0;
+	set_simulation_end(data, 0);
 	if (init_mutexes(data) || init_philosophers(data))
 		return (1);
 	data->start_time = get_time();
