@@ -12,9 +12,9 @@
 
 #include "philosophers.h"
 
-int init_mutexes(t_data *data)
+int	init_mutexes(t_data *data)
 {
-	int i;
+	int	i;
 
 	if (pthread_mutex_init(&data->simulation_lock, NULL) != 0)
 		return (1);
@@ -23,35 +23,18 @@ int init_mutexes(t_data *data)
 		return (1);
 	i = -1;
 	while (++i < data->num_philosophers)
-	if (pthread_mutex_init(&data->forks[i], NULL))
-		return (1);
+	{
+		if (pthread_mutex_init(&data->forks[i], NULL))
+			return (1);
+	}
 	if (pthread_mutex_init(&data->print_lock, NULL))
 		return (1);
 	return (0);
 }
-/*
-int init_philosophers(t_data *data) 
-{
-	int i;
-	pthread_mutex_init(&data->philosophers[i].meal_lock, NULL);
-	data->philosophers = malloc(sizeof(t_philosopher) * data->num_philosophers);
-	if (!data->philosophers)
-		return (1);
-	i = -1;
-	while (++i < data->num_philosophers)
-	{
-		data->philosophers[i].id = i + 1;
-		data->philosophers[i].meals_eaten = 0;
-		data->philosophers[i].last_meal_time = 0;
-		data->philosophers[i].data = data;
-	}
-	return (0);
-}
-*/
 
 int	init_philosophers(t_data *data)
 {
-	int i;
+	int	i;
 
 	data->philosophers = malloc(sizeof(t_philosopher) * data->num_philosophers);
 	if (!data->philosophers)
@@ -68,7 +51,7 @@ int	init_philosophers(t_data *data)
 	return (0);
 }
 
-int init_data(t_data *data, int argc, char **argv)
+int	init_data(t_data *data, int argc, char **argv)
 {
 	if (argc < 5 || argc > 6)
 		return (1);
@@ -86,4 +69,3 @@ int init_data(t_data *data, int argc, char **argv)
 	data->start_time = get_time();
 	return (0);
 }
-
