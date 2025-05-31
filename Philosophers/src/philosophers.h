@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philosophers.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fparet <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/31 15:38:41 by fparet            #+#    #+#             */
+/*   Updated: 2025/05/31 15:38:45 by fparet           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILOSOPHERS_H
 #define PHILOSOPHERS_H
 
@@ -33,13 +45,16 @@ typedef struct s_data
 }   t_data;
 
 //simulation
-void take_forks(t_philosopher *philo);
 void release_forks(t_philosopher *philo);
 void *philosopher_routine(void *arg);
 void create_threads(t_data *data);
 void monitor_philosophers(t_data *data);
 void start_simulation(t_data *data);
 void	eat(t_philosopher *philo);
+void	handle_single_philosopher(t_philosopher *philo);
+void	take_forks(t_philosopher *philo, int first_fork, int second_fork);
+void	sleep_and_think(t_philosopher *philo, int first_fork, int second_fork);
+
 
 //init
 int init_mutexes(t_data *data);
