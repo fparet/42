@@ -10,7 +10,7 @@ static int map_cell_is_wall(t_state *st, int ix, int iy)
     len = (int)ft_strlen(st->g->map[iy]);
     if(ix >= len)
         return 1;
-    return(st->g->map[iy][ix]!='0' && st->g->map[iy][ix] != 'N' && st->g->map[iy][ix] != 'S' && st->g->map[iy][ix]!='E' && st->g->map[iy][ix]!='W');
+    return(st->g->map[iy][ix] != '0' && st->g->map[iy][ix] != 'N' && st->g->map[iy][ix] != 'S' && st->g->map[iy][ix] != 'E' && st->g->map[iy][ix] != 'W');
 }
 
 static void move_try(t_state *st, double nx, double ny)
@@ -84,19 +84,19 @@ static void do_move_rotate(t_state *st)
         ny=st->g->player_y+sin(st->g->player_angle)*sp;
         move_try(st,nx,ny);
     }
-    if(is_down(st,KEY_DOWN))
+    if(is_down(st, KEY_DOWN))
     {
-        nx=st->g->player_x-cos(st->g->player_angle)*sp;
-        ny=st->g->player_y-sin(st->g->player_angle)*sp;
-        move_try(st,nx,ny);
+        nx = st->g->player_x - cos(st->g->player_angle) * sp;
+        ny=st->g->player_y - sin(st->g->player_angle) * sp;
+        move_try(st, nx, ny);
     } 
-    if(is_down(st,KEY_LEFT))st->g->player_angle-=rt;
-    if(is_down(st,KEY_RIGHT))
-        st->g->player_angle+=rt;
-    if(st->g->player_angle>M_PI)
-        st->g->player_angle-=2.0*M_PI;
-    else if(st->g->player_angle<=-M_PI)
-        st->g->player_angle+=2.0*M_PI;
+    if(is_down(st, KEY_LEFT))st->g->player_angle -= rt;
+    if(is_down(st, KEY_RIGHT))
+        st->g->player_angle += rt;
+    if(st->g->player_angle > M_PI)
+        st->g->player_angle -= 2.0 * M_PI;
+    else if(st->g->player_angle <= -M_PI)
+        st->g->player_angle += 2.0 * M_PI;
 }
 
 int game_loop(t_state *st)

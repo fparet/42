@@ -12,7 +12,8 @@ typedef struct s_ray
     int step_x;
     int step_y;
     int side;
-    double dist;} t_ray;
+    double dist;
+} t_ray;
 
 static int is_wall(t_state *st, int mx, int my)
 {  

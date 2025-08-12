@@ -4,7 +4,9 @@
 int setup_and_run(t_game *g)
 {
     t_state st;
-    int i=0;
+    int i;
+
+    i = 0;
     while(i < 512)
         st.keys[i++] = 0;
     if(!eng_init(&st, g))
