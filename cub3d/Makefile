@@ -1,6 +1,6 @@
 NAME        = cub3D
 CC          = cc
-CFLAGS      = -Wall -Wextra -Werror -Iinclude -Ilibft -Iinclude/engine
+CFLAGS      = -Wall -Wextra -Werror -Iinclude -Ilibft -Iinclude/engine -g3
 OS          = $(shell uname -s)
 
 SRC_DIR     = src

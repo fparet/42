@@ -62,12 +62,21 @@ int on_key_release(int key, t_state *st)
     return 0;
 }
 
+#include "cub3D.h"
+
 int on_close(t_state *st)
 {
+    if (!st)
+        exit(0);
+    /* Libère côté MLX (images, window, display, etc.) */
     eng_cleanup(st);
+    /* Libère la partie “jeu” (map dupliquée, chemins textures, etc.) */
+    (void)free_game(st->g);
+    /* On termine le programme proprement */
     exit(0);
-    return 0;
+    return (0);
 }
+
 
 static void do_move_rotate(t_state *st)
 {  

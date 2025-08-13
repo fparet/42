@@ -84,7 +84,6 @@ char	*free_textures(char *texture[4]);
 
 /* get_next_line.c */
 char	*get_next_line(int fd);
-/* #################### */
 
 /* engine interface */
 int	setup_and_run(t_game *g);
